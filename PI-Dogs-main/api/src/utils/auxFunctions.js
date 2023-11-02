@@ -1,4 +1,4 @@
-const {API_KEY, IMG_URL, API_NAME_URL} = process.env;
+const {API_KEY, IMG_URL, API_NAME_URL,API_ALL_URL,API_15_URL} = process.env;
 const {Dogs} = require('../db');
 const {Temperaments} = require('../db');
 const { Sequelize } = require('sequelize');
@@ -6,6 +6,23 @@ const {Op} = require('sequelize');
 const axios = require('axios');
 
 const dogsFromDB = async (name) => {
+    
+    if(!name){
+        const allDogsDB = await Dogs.findAll();
+        const dogsID = allDogsDB.map(dog => dog.id);
+        const arrayDog = [];
+
+        for(const id of dogsID){
+            try{
+                const dogInfo = await getDogsByID(id);
+                arrayDog.push(dogInfo);
+            } catch (error) {
+                console.error(`Error al obtener datos del perro con ID ${id}: ${error.message}`);
+            }
+    };
+        
+    return arrayDog;
+    };
 
     //busco los dogs en la DB que coincide con el name
     const dogsDB = await Dogs.findAll({where: {
@@ -15,6 +32,7 @@ const dogsFromDB = async (name) => {
             })
         ]}
     });
+
     //obtengo un array con la id de los dogs
     const dogsID = dogsDB.map(dog => dog.id);
 
@@ -38,6 +56,9 @@ const getDogsByID = async (id) => {
         include: Temperaments.name,
     });
 
+    if(dogi === "" || dogi === null){
+        throw new Error("No se encontro el Dog con esa Id en la DB!!");
+    }
     const tempsWhitDog = await dogi.getTemperaments();
 
     return dogAndTemp = {
@@ -63,8 +84,15 @@ const dogsFromAPI = async (name) => {
     // } catch (error) {
     //     console.error(`Error al obtener datos del perro con name: ${name}: ${error.message}`);
     // }
+    
 
     try{
+        if(!name){
+            const infoApi = (await axios.get(`${API_15_URL}${API_KEY}`)).data;
+            const dogsApi = infoCleanerApi(infoApi)
+            //console.log(dogsApi);
+            return dogsApi;
+        }
         const infoApi = (await axios.get(`${API_NAME_URL}${name}&api_key=${API_KEY}`)).data;
         const dogsApi = infoCleanerApi(infoApi);
         //const dogsFiltered = dogsApi.filter(dogs => dogs.name.toLowerCase().includes(name.toLowerCase()));
@@ -99,4 +127,29 @@ const infoCleanerApi = (array) => {
     });
 };
 
-module.exports = {dogsFromDB, dogsFromAPI};
+const getDogsByIDAPI = async (id) => {
+
+    try {
+        let IDAux = parseInt(id);
+        
+        const infoApi = (await axios.get(`${API_ALL_URL}`)).data;
+        const dogAPI = infoApi.find(item => item.id === IDAux);
+        //console.log(dogAPI);
+        if(dogAPI === "" || dogAPI === undefined){
+            throw new Error("No se encontro el Dog con esa Id en la API!!");
+        }
+        //console.log((dogAPI.name));
+
+        const infoDog = await dogsFromAPI(dogAPI.name);
+        //console.log(infoDog);
+        return infoDog;
+
+    } catch (error) {
+        console.error("Error al obtener datos de la API: ", error);
+    }
+    
+    //console.log(infoApi);
+
+};
+
+module.exports = {dogsFromDB, dogsFromAPI, getDogsByID, getDogsByIDAPI};

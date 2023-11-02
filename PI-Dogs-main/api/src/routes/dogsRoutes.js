@@ -1,17 +1,15 @@
 const {Router} = require('express');
 const createDogHandler = require('../handlers/postDogHandler');
 const getDogNameHandler = require('../handlers/getNameHandler');
+const getDogIDHandler = require('../handlers/getIdHandler');
+const getAllDogsHandler = require('../handlers/getAllHandler');
 
 
 const dogsRouter = Router();
 
 // peticiones de GET
-dogsRouter.get("/", (req, res) => {
-    res.status(200).send("es el get de dogs!!");
-});
-dogsRouter.get("/idRaza/:id", (req, res) => {
-    res.status(200).send("es el get de dogs con ID");
-});
+dogsRouter.get("/", getAllDogsHandler);
+dogsRouter.get("/idRaza/:id", getDogIDHandler);
 dogsRouter.get("/name", getDogNameHandler);
 
 
