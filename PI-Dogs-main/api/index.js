@@ -22,6 +22,7 @@ const { conn } = require('./src/db.js');
 
 // Syncing all the models at once.
 conn.sync({ force: false }).then(() => { //recordar cambiar a false para dejar de borrar la BD
+  //server.listen(5173, () => {
   server.listen(3001, () => {
     console.log('%s listening at 3001');
     console.log('Dogs baby!!!!!!'); // eslint-disable-line no-console

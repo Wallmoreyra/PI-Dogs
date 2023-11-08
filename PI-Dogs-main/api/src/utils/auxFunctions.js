@@ -62,6 +62,7 @@ const getDogsByID = async (id) => {
     const tempsWhitDog = await dogi.getTemperaments();
 
     return dogAndTemp = {
+        id:dogi.id,
         img: dogi.img,
         name: dogi.name,
         height: dogi.height,
@@ -116,6 +117,7 @@ const infoCleanerApi = (array) => {
         const tempsDefault = ['Gay','Loyal','Playful'];
         const arrayTemps = dog.temperament ? dog.temperament.split(', ').map(item => item.trim()) : tempsDefault;
         return {
+            id:dog.id,
             img: imagenDog,
             name: dog.name,
             height: dog.height.metric,
