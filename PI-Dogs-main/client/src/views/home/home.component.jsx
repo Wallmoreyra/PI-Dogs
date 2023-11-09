@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getByName, getDogs } from '../../redux/actions';
 
-import Navbar from '../../components/navbar/navbar.component';
+import Searchbar from '../../components/searchBar/searchbar.component';
 import Cards from '../../components/cards/cards.component';
 
 import './home.styles.css';
@@ -53,14 +53,14 @@ function Home() {
   }, [dispatch])
 
   return (
-    <>
+    
       <div className='home'>
         <h2 className='home-title'>Home</h2>
-        <Navbar handleChange={handleChange} handleSubmit={handleSubmit}/>
+        <Searchbar handleChange={handleChange} handleSubmit={handleSubmit}/>
         <Cards allDogs = {allDogs} />
       </div>
       
-    </>
+    
   )
 }
 

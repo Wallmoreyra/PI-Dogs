@@ -111,7 +111,10 @@ const dogsFromAPI = async (name) => {
 const infoCleanerApi = (array) => {
 
     return array.map((dog) => {
+        const age = dog.life_span.split(" ");
+        const ageFiltred = age.length > 2 ? `${age[0]}-${age[2]}` : age[0];
         const imgDefault = IMG_URL;
+        
         const imgDog = dog.image.url;
         const imagenDog = (imgDog === "" || imgDog === null) ? imgDefault : imgDog
         const tempsDefault = ['Gay','Loyal','Playful'];
@@ -122,7 +125,7 @@ const infoCleanerApi = (array) => {
             name: dog.name,
             height: dog.height.metric,
             weight: dog.weight.metric,
-            lige_span: dog.life_span,
+            lige_span: ageFiltred,
             temperaments: arrayTemps,
             created:false
         };

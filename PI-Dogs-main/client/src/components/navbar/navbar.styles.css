@@ -1,9 +1,27 @@
-.search-box{
-    /* -webkit-appearance: none; */
-    border: none;
-    outline: none;
-    padding: 10px;
-    width: 150px;
-    line-height: 30px;
-    margin-bottom: 30px;
+
+.navbar-cont{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: purple;
+    border: solid 2px black;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-cont-img img{
+    width: 6rem;
+    padding-top: 5px;
+    border-radius: 2rem;
+}
+
+.navbar-cont-links{
+    display: flex;
+    justify-content: space-between;
+    width: 15rem;
+}
+
+.navbar-link{
+    color: white;
+
 }

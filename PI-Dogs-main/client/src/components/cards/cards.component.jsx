@@ -6,19 +6,13 @@ function Cards({allDogs}) {
   const dogsList = allDogs
 
   return (
-    <>
+    
       <div className='card-list'>
         {dogsList?.map(dog => (
           <Card key={dog.id} dog = {dog}/>
           ))}
-          
-        {/* <Card/>
-        <Card/>
-        <Card/>
-        <Card/> */}
       </div>
-      
-    </>
+    
   )
 }
 
