@@ -1,7 +1,8 @@
 import { GET_DOGS,GET_DOG_BY_NAME } from "../actions";
 
+//el archivo base es mejor nombrarlo con el name de reducer.js
 
-let initialState = {allDogs: [],dogsCopy:[] , posts: []}
+let initialState = {allDogs: [],dogsCopy:[] , posts: [], allState: []}
 
 function rootReducer(state = initialState, action){
     switch(action.type){

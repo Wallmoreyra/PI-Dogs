@@ -28,6 +28,8 @@ function validName(value) {
       return "No puede contener numeros!!!";
     } else if(value.name === ""){
       return "No puede estar vacio!!!";
+    } else if(value.name.length < 3){
+      return "El name tiene que tener mas de dos letras!!";
     }
     return "";
 };
@@ -102,7 +104,7 @@ const [error,setError] = useState({
     let heightError = error.height;
     let weightError = error.weight;
     let lifeSpanError = error.life_span;
-    let temps2 = error.temperaments2;
+    let tempsError = error.temperaments2;
 
     
     if(name === "img"){
@@ -121,11 +123,11 @@ const [error,setError] = useState({
       lifeSpanError = validLifeSpan(input);
     }
     if(name === "temperaments2"){
-      console.log("falta la funcion de temperamentos!!")
-      temps2 = validTemps(input.temperaments2);
+      //console.log("falta la funcion de temperamentos!!")
+      tempsError = validTemps(input.temperaments2);
     }
 
-    const totalError = nameError || imgError || heightError || weightError || lifeSpanError;
+    const totalError = nameError || imgError || heightError || weightError || lifeSpanError || tempsError;
 
     setError({
       ...error,
@@ -134,6 +136,7 @@ const [error,setError] = useState({
       height: heightError,
       weight: weightError,
       life_span: lifeSpanError,
+      temperaments2: tempsError,
       total: totalError ? "no nulo!!!" : null
     });
 
@@ -186,6 +189,26 @@ const handleChange = (e) => {
   const temperamentos = [
     "Stubborn","Curious","Playful","Adventurous","Active"
   ]
+
+  const buttonDisabled = () => {
+    let disableAux = true;
+    // for(let erro in error){
+    //   if(error[erro] === "") disableAux = false;
+    //   else{
+    //     disableAux = true;
+    //     break;
+    //   }
+    // }
+    if(error.total === null){
+      disableAux = false;
+      //return console.log(disableAux);
+      return disableAux;
+    } else {
+      disableAux = true;
+      //return console.log(disableAux);
+      return disableAux;
+    }
+  }
 
   const remove = (e) => {
     const value = document.getElementById(e.target.name).value
@@ -241,12 +264,13 @@ const handleChange = (e) => {
 
             <input type="text" name='temperaments2' id='temperaments2'/>
             <button onClick={handleChange} name='temperaments2'  type='button'>Agregar!!</button>
+            <span>{error.temperaments2}</span>
           </div>
           {
               input.temperaments2.map( p => <div key={p}><span id={"temperaments2"}>{p}</span><button name='temperaments2' onClick={remove} type='button' id={p}>X</button ></div>)
           }
-          {error.total ? null : <button type='submit'>Crear Dog</button>}
-          
+          {/* {error.total ? null : <button type='submit'>Crear Dog</button>} */}
+          <input disabled={buttonDisabled()} type='submit'/>
         </form>
       </div>
 
